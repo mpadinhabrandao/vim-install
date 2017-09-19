@@ -10,7 +10,6 @@ case "${unameOut}" in
     MINGW*)     machine="MinGw";;
     *)          machine="UNKNOWN:${unameOut}"
 esac
-echo ${machine}
 
 cd ~/
 
@@ -105,7 +104,7 @@ set ts=4 sw=4 et
 #
 # TagBar
 #
-if [ "$machine"=="Mac" ]; then
+if [ "Mac" == "$machine" ]; then
     git clone https://github.com/majutsushi/tagbar  ~/.vim/bundle/tagbar
     brew tap universal-ctags/universal-ctags
     xcode-select --install
@@ -116,3 +115,5 @@ let g:tagbar_autoclose=1
 nmap <F8> :TagbarToggle<CR>"  >> ~/.vimrc  
 
 fi
+
+echo "Done!"
