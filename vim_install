@@ -76,6 +76,7 @@ set so=99999
 set tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
 set ruler
 set statusline+=%F\\ %l\\:%c
+hi statusline guibg=Cyan ctermfg=6 guifg=Black ctermbg=White
 
 \" habilitar insert(paste) por defeito
 set paste
