@@ -1,0 +1,106 @@
+#!/bin/bash
+
+DATE=`date +%Y%m%d%H%M%S`
+
+cd ~/
+
+if [ -f ~/.vimrc ]; then
+    mv ~/.vimrc ~/.vimrc_"$DATE"
+fi
+
+if [ -d ~/.vim ]; then
+    mv ~/.vim ~/.vim_"$DATE"
+fi
+
+
+#
+#	instalar pathogen
+#
+mkdir -p ~/.vim/autoload ~/.vim/bundle
+curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+echo "
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
+" > ~/.vimrc
+
+
+#
+#	install CTRLP
+#
+git clone https://github.com/ctrlpvim/ctrlp.vim.git ~/.vim/bundle/ctrlp.vim
+echo "
+\" CTRLP
+set runtimepath^=~/.vim/bundle/ctrlp.vim"  >> ~/.vimrc 
+
+
+#
+#   install NERDTREE
+#
+git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree
+git clone https://github.com/jistr/vim-nerdtree-tabs.git ~/.vim/bundle/vim-nerdtree-tabs
+echo "
+\" NERDTREE
+let g:nerdtree_tabs_open_on_console_startup=1"  >> ~/.vimrc       
+
+
+#
+#   install THEME
+#
+git clone https://github.com/kristijanhusak/vim-hybrid-material ~/.vim/bundle/vim-hybrid-material
+echo "
+\" THEME
+set background=dark
+colorscheme hybrid_reverse
+set cursorline
+set cursorcolumn"  >> ~/.vimrc 
+
+
+#
+#
+#
+echo "
+\" set relativenumber
+set number relativenumber
+
+set so=99999
+set tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
+set ruler
+set statusline+=%F\\ %l\\:%c
+
+\" habilitar insert(paste) por defeito
+set paste
+augroup scroll
+    au!
+    au  VimEnter * :silent !synclient VertEdgeScroll=0
+    au  VimLeave * :silent !synclient VertEdgeScroll=1
+augroup END
+"  >> ~/.vimrc 
+
+#
+#  install indent guides
+#
+git clone git://github.com/nathanaelkane/vim-indent-guides.git ~/.vim/bundle/vim-indent-guides
+echo "
+\" INDENT GUIDES
+let g:indent_guides_enable_on_vim_startup = 0
+autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
+autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
+let g:indent_guides_guide_size=1
+let g:indent_guides_start_level=2
+set ts=4 sw=4 et
+"  >> ~/.vimrc       
+
+
+#
+# TagBar
+#
+git clone https://github.com/majutsushi/tagbar  ~/.vim/bundle/tagbar
+brew tap universal-ctags/universal-ctags
+xcode-select --install
+brew install --HEAD universal-ctags/universal-ctags/universal-ctags
+echo "
+\" TAGBAR
+let g:tagbar_autoclose=1
+nmap <F8> :TagbarToggle<CR>"  >> ~/.vimrc  
+
