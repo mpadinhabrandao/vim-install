@@ -2,6 +2,16 @@
 
 DATE=`date +%Y%m%d%H%M%S`
 
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machine="Linux";;
+    Darwin*)    machine="Mac";;
+    CYGWIN*)    machine="Cygwin";;
+    MINGW*)     machine="MinGw";;
+    *)          machine="UNKNOWN:${unameOut}"
+esac
+echo ${machine}
+
 cd ~/
 
 if [ -f ~/.vimrc ]; then
@@ -95,12 +105,14 @@ set ts=4 sw=4 et
 #
 # TagBar
 #
-git clone https://github.com/majutsushi/tagbar  ~/.vim/bundle/tagbar
-brew tap universal-ctags/universal-ctags
-xcode-select --install
-brew install --HEAD universal-ctags/universal-ctags/universal-ctags
-echo "
+if [ "$machine"=="Mac" ]; then
+    git clone https://github.com/majutsushi/tagbar  ~/.vim/bundle/tagbar
+    brew tap universal-ctags/universal-ctags
+    xcode-select --install
+    brew install --HEAD universal-ctags/universal-ctags/universal-ctags
+    echo "
 \" TAGBAR
 let g:tagbar_autoclose=1
 nmap <F8> :TagbarToggle<CR>"  >> ~/.vimrc  
 
+fi
