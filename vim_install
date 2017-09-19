@@ -50,7 +50,11 @@ git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree
 git clone https://github.com/jistr/vim-nerdtree-tabs.git ~/.vim/bundle/vim-nerdtree-tabs
 echo "
 \" NERDTREE
-let g:nerdtree_tabs_open_on_console_startup=1"  >> ~/.vimrc       
+let g:nerdtree_tabs_open_on_console_startup=1"  >> ~/.vimrc
+if [ "Linux" == "$machine" ]; then
+    echo "let NERDTreeDirArrowExpandable='+'"  >> ~/.vimrc
+    echo "let NERDTreeDirArrowCollapsible='-'"  >> ~/.vimrc
+fi
 
 
 #
