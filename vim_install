@@ -94,7 +94,7 @@ augroup END
 #
 #  install indent guides
 #
-git clone git://github.com/nathanaelkane/vim-indent-guides.git ~/.vim/bundle/vim-indent-guides
+git clone https://github.com/nathanaelkane/vim-indent-guides.git ~/.vim/bundle/vim-indent-guides
 echo "
 \" INDENT GUIDES
 let g:indent_guides_enable_on_vim_startup = 1
