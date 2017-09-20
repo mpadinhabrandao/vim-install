@@ -135,5 +135,6 @@ git clone https://github.com/posva/vim-vue.git ~/.vim/bundle/vim-vue
 # VOLT SYNTAX
 #
 git clone https://github.com/etaoins/vim-volt-syntax ~/.vim/bundle/vim-volt-syntax 
+echo "au BufReadPost *.volt.php set syntax=volt"  >> ~/.vimrc 
 
 echo "Done!"
