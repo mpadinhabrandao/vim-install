@@ -51,6 +51,9 @@ git clone https://github.com/jistr/vim-nerdtree-tabs.git ~/.vim/bundle/vim-nerdt
 echo "
 \" NERDTREE
 let g:nerdtree_tabs_open_on_console_startup=1
+function! IsNerdTreeEnabled()
+    return exists('t:NERDTreeBufName') && bufwinnr(t:NERDTreeBufName) != -1
+endfunction
 nmap <F7> :NERDTreeTabsToggle<CR>"  >> ~/.vimrc
 if [ "Linux" == "$machine" ]; then
     echo "let NERDTreeDirArrowExpandable='+'"  >> ~/.vimrc
