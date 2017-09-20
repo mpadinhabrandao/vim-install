@@ -83,7 +83,8 @@ set number relativenumber
 set so=99999
 set tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
 set ruler
-set statusline+=%F\\ %l\\:%c
+\" set statusline+=%F\\ %l\\:%c
+set statusline=%<%P\ %l,%c\ %h%m%r%f%=%{strftime(\"%Y-%m-%d\ %l:%M:%S\")}
 hi statusline guibg=Cyan ctermfg=6 guifg=Black ctermbg=White
 
 \" habilitar insert(paste) por defeito
