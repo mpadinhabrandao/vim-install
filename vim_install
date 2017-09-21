@@ -40,7 +40,11 @@ filetype plugin indent on
 git clone https://github.com/ctrlpvim/ctrlp.vim.git ~/.vim/bundle/ctrlp.vim
 echo "
 \" CTRLP
-set runtimepath^=~/.vim/bundle/ctrlp.vim"  >> ~/.vimrc 
+set runtimepath^=~/.vim/bundle/ctrlp.vim
+let g:ctrlp_prompt_mappings = {
+    \ 'AcceptSelection("e")': ['<2-LeftMouse>'],
+    \ 'AcceptSelection("t")': ['<cr>'],
+    \ }"  >> ~/.vimrc 
 
 
 #
