@@ -44,7 +44,8 @@ set runtimepath^=~/.vim/bundle/ctrlp.vim
 let g:ctrlp_prompt_mappings = {
     \ 'AcceptSelection("e")': ['<2-LeftMouse>'],
     \ 'AcceptSelection("t")': ['<cr>'],
-    \ }"  >> ~/.vimrc 
+    \ }
+let g:ctrlp_cmd = 'CtrlPCurWD'"  >> ~/.vimrc 
 
 
 #
