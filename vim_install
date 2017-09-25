@@ -77,30 +77,6 @@ colorscheme hybrid_reverse
 set cursorline
 set cursorcolumn"  >> ~/.vimrc 
 
-
-#
-#
-#
-echo "
-\" set relativenumber
-set number relativenumber
-
-set so=99999
-set tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
-set ruler
-\" set statusline+=%F\\ %l\\:%c
-set statusline=%<%P\ %l,%c\ %h%m%r%f%=%{strftime(\\\"%Y-%m-%d\ %l:%M:%S\\\")}
-hi statusline guibg=Cyan ctermfg=6 guifg=Black ctermbg=White
-
-\" habilitar insert(paste) por defeito
-set paste
-augroup scroll
-    au!
-    au  VimEnter * :silent !synclient VertEdgeScroll=0
-    au  VimLeave * :silent !synclient VertEdgeScroll=1
-augroup END
-"  >> ~/.vimrc 
-
 #
 #  install indent guides
 #
@@ -160,9 +136,30 @@ let g:pdv_cfg_License = ""
 git clone https://github.com/Xuyuanp/nerdtree-git-plugin.git ~/.vim/bundle/nerdtree-git-plugin
 git clone git://github.com/airblade/vim-gitgutter.git ~/.vim/bundle/vim-gitgutter
 git clone https://github.com/tpope/vim-fugitive.git ~/.vim/bundle/vim-fugitive
+
+#
+#
+#
 echo "
-\" Git
-set statusline+=%{fugitive\#statusline()}"  >> ~/.vimrc 
+\" set relativenumber
+set number relativenumber
+
+set so=99999
+set tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
+set ruler
+\" set statusline+=%F\\ %l\\:%c
+set statusline=%<%{fugitive#statusline()}%P\ %l,%c\ %h%m%r%f%=%{strftime(\\\"%Y-%m-%d\ %l:%M:%S\\\")}
+set statusline=%<%P\ %l,%c\ %h%m%r%f%=%{strftime(\\\"%Y-%m-%d\ %l:%M:%S\\\")}
+hi statusline guibg=Cyan ctermfg=6 guifg=Black ctermbg=White
+
+\" habilitar insert(paste) por defeito
+set paste
+augroup scroll
+    au!
+    au  VimEnter * :silent !synclient VertEdgeScroll=0
+    au  VimLeave * :silent !synclient VertEdgeScroll=1
+augroup END
+"  >> ~/.vimrc 
 
 
 echo "Done!"
