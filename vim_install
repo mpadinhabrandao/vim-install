@@ -159,6 +159,10 @@ augroup scroll
     au  VimEnter * :silent !synclient VertEdgeScroll=0
     au  VimLeave * :silent !synclient VertEdgeScroll=1
 augroup END
+
+\" vim-gitgutter
+set updatetime=250
+GitGutterLineHighlightsEnable
 "  >> ~/.vimrc 
 
 
