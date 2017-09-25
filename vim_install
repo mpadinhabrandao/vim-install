@@ -162,7 +162,7 @@ augroup END
 
 \" vim-gitgutter
 set updatetime=250
-GitGutterLineHighlightsEnable
+:GitGutterLineHighlightsEnable
 "  >> ~/.vimrc 
 
 
