@@ -144,6 +144,9 @@ echo "
 \" set relativenumber
 set number relativenumber
 
+nnoremap H gT
+nnoremap L gt
+
 set so=99999
 set tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
 set ruler
