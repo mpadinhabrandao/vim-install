@@ -96,6 +96,8 @@ set ts=4 sw=4 et
 # TagBar
 #
 if [ "Mac" == "$machine" ]; then
+    git clone https://github.com/Xuyuanp/nerdtree-git-plugin.git ~/.vim/bundle/nerdtree-git-plugin
+    
     git clone https://github.com/majutsushi/tagbar  ~/.vim/bundle/tagbar
     brew tap universal-ctags/universal-ctags
     xcode-select --install
@@ -133,7 +135,6 @@ let g:pdv_cfg_Copyright = ""
 let g:pdv_cfg_License = ""
 "  >> ~/.vimrc 
 
-git clone https://github.com/Xuyuanp/nerdtree-git-plugin.git ~/.vim/bundle/nerdtree-git-plugin
 git clone git://github.com/airblade/vim-gitgutter.git ~/.vim/bundle/vim-gitgutter
 git clone https://github.com/tpope/vim-fugitive.git ~/.vim/bundle/vim-fugitive
 
