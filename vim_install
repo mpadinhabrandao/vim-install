@@ -31,6 +31,10 @@ echo "
 execute pathogen#infect()
 syntax on
 filetype plugin indent on
+autocmd VimEnter * call NERDTreeAddKeyMap({ 'key': '<2-LeftMouse>', 'scope': \"FileNode\", 'callback': \"OpenInTab\", 'override':1 })
+    function! OpenInTab(node)
+        call a:node.activate({'reuse': 'all', 'where': 't'})
+    endfunction
 " > ~/.vimrc
 
 
@@ -76,6 +80,7 @@ set background=dark
 colorscheme hybrid_reverse
 set cursorline
 set cursorcolumn"  >> ~/.vimrc 
+set mouse+=a
 
 #
 #  install indent guides
@@ -166,6 +171,7 @@ augroup END
 
 \" vim-gitgutter
 set updatetime=250
+set mouse+=a
 "  >> ~/.vimrc 
 
 
