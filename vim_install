@@ -54,6 +54,6 @@ EOF
 
 # Instalar os plugins do Vim
 echo "Instalando os plugins do Vim..."
-vim +PluginInstall +qall
+vim -E -s +PluginInstall +qall
 
 echo "Configuração completa! Abra o Vim para verificar."
