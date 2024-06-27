@@ -1,178 +1,59 @@
 #!/bin/bash
 
-DATE=`date +%Y%m%d%H%M%S`
-
-unameOut="$(uname -s)"
-case "${unameOut}" in
-    Linux*)     machine="Linux";;
-    Darwin*)    machine="Mac";;
-    CYGWIN*)    machine="Cygwin";;
-    MINGW*)     machine="MinGw";;
-    *)          machine="UNKNOWN:${unameOut}"
-esac
-
-cd ~/
-
-if [ -f ~/.vimrc ]; then
-    mv ~/.vimrc ~/.vimrc_"$DATE"
+# Verificar se o Vim está instalado
+if ! command -v vim &> /dev/null
+then
+    echo "Vim não encontrado, instalando o Vim..."
+    sudo apt-get update
+    sudo apt-get install -y vim
+else
+    echo "Vim já está instalado."
 fi
 
-if [ -d ~/.vim ]; then
-    mv ~/.vim ~/.vim_"$DATE"
+# Diretório do Vundle
+VUNDLE_DIR=~/.vim/bundle/Vundle.vim
+
+# Verificar se o Vundle está instalado
+if [ ! -d "$VUNDLE_DIR" ]; then
+    echo "Instalando o Vundle..."
+    git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+else
+    echo "Vundle já está instalado."
 fi
 
+# Configurar o .vimrc
+echo "Configurando o .vimrc..."
 
-#
-#	instalar pathogen
-#
-mkdir -p ~/.vim/autoload ~/.vim/bundle
-curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-echo "
-execute pathogen#infect()
-syntax on
-filetype plugin indent on
-autocmd VimEnter * call NERDTreeAddKeyMap({ 'key': '<2-LeftMouse>', 'scope': \"FileNode\", 'callback': \"OpenInTab\", 'override':1 })
-    function! OpenInTab(node)
-        call a:node.activate({'reuse': 'all', 'where': 't'})
-    endfunction
-" > ~/.vimrc
+cat <<EOF > ~/.vimrc
+set nocompatible              " necessário para evitar conflitos
+filetype off                  " necessário para Vundle
 
+" Iniciar o Vundle
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-#
-#	install CTRLP
-#
-git clone https://github.com/ctrlpvim/ctrlp.vim.git ~/.vim/bundle/ctrlp.vim
-echo "
-\" CTRLP
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-let g:ctrlp_prompt_mappings = {
-    \ 'AcceptSelection("e")': ['<2-LeftMouse>'],
-    \ 'AcceptSelection("t")': ['<cr>'],
-    \ }
-let g:ctrlp_cmd = 'CtrlPCurWD'"  >> ~/.vimrc 
+" Plugins
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'preservim/nerdtree'
 
+" Todos os plugins devem ser adicionados antes de chamar o seguinte comando
+call vundle#end()            " obrigatório
+filetype plugin indent on    " obrigatório
 
-#
-#   install NERDTREE
-#
-git clone https://github.com/scrooloose/nerdtree.git ~/.vim/bundle/nerdtree
-git clone https://github.com/jistr/vim-nerdtree-tabs.git ~/.vim/bundle/vim-nerdtree-tabs
-echo "
-\" NERDTREE
-let g:nerdtree_tabs_open_on_console_startup=1
-function! IsNerdTreeEnabled()
-    return exists('t:NERDTreeBufName') && bufwinnr(t:NERDTreeBufName) != -1
-endfunction
-nmap <F7> :NERDTreeTabsToggle<CR>"  >> ~/.vimrc
-if [ "Linux" == "$machine" ]; then
-    echo "let NERDTreeDirArrowExpandable='+'"  >> ~/.vimrc
-    echo "let NERDTreeDirArrowCollapsible='-'"  >> ~/.vimrc
-fi
+" Abrir automaticamente o NERDTree ao iniciar o Vim se nenhum ficheiro for especificado
+autocmd vimenter * if !argc() | NERDTree | endif
 
+" Fechar o Vim se o NERDTree for o último buffer aberto
+autocmd bufenter * if winnr('$') == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree() | q | endif
 
-#
-#   install THEME
-#
-git clone https://github.com/kristijanhusak/vim-hybrid-material ~/.vim/bundle/vim-hybrid-material
-echo "
-\" THEME
-set background=dark
-colorscheme hybrid_reverse
-set cursorline
-set cursorcolumn"  >> ~/.vimrc 
-set mouse+=a
+" Abrir o NERDTree se o diretório for passado como argumento
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") |
+      \ execute 'NERDTree' argv()[0] | wincmd p | endif
+EOF
 
-#
-#  install indent guides
-#
-git clone https://github.com/nathanaelkane/vim-indent-guides.git ~/.vim/bundle/vim-indent-guides
-echo "
-\" INDENT GUIDES
-let g:indent_guides_enable_on_vim_startup = 1
-autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=red   ctermbg=3
-autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=green ctermbg=4
-let g:indent_guides_guide_size=1
-let g:indent_guides_start_level=2
-set ts=4 sw=4 et
-"  >> ~/.vimrc       
+# Instalar os plugins do Vim
+echo "Instalando os plugins do Vim..."
+vim +PluginInstall +qall
 
-
-#
-# TagBar
-#
-if [ "Mac" == "$machine" ]; then
-    git clone https://github.com/Xuyuanp/nerdtree-git-plugin.git ~/.vim/bundle/nerdtree-git-plugin
-    
-    git clone https://github.com/majutsushi/tagbar  ~/.vim/bundle/tagbar
-    brew tap universal-ctags/universal-ctags
-    xcode-select --install
-    brew install --HEAD universal-ctags/universal-ctags/universal-ctags
-    echo "
-\" TAGBAR
-let g:tagbar_autoclose=1
-nmap <F8> :TagbarToggle<CR>"  >> ~/.vimrc  
-
-fi
-
-#
-# VUE SYNTAX
-#
-git clone https://github.com/posva/vim-vue.git ~/.vim/bundle/vim-vue
-
-#
-# VOLT SYNTAX
-#
-git clone https://github.com/etaoins/vim-volt-syntax ~/.vim/bundle/vim-volt-syntax 
-echo "au BufReadPost *.volt.php set syntax=volt"  >> ~/.vimrc 
-
-curl "https://vim.sourceforge.io/scripts/download_script.php\?src_id\=4666" >> ~/.vim/php-doc.vim 
-echo "
-\" phpDoc
-source ~/.vim/php-doc.vim 
-inoremap <C-C> <ESC>:call PhpDocSingle()<CR>i 
-nnoremap <C-C> :call PhpDocSingle()<CR> 
-vnoremap <C-C> :call PhpDocRange()<CR> 
-
-let g:pdv_cfg_Package = ""
-let g:pdv_cfg_Version = ""
-let g:pdv_cfg_Author="Márcio Padinha Brandão <mbrandao@bsolus.pt>"
-let g:pdv_cfg_Copyright = ""
-let g:pdv_cfg_License = ""
-"  >> ~/.vimrc 
-
-git clone git://github.com/airblade/vim-gitgutter.git ~/.vim/bundle/vim-gitgutter
-git clone https://github.com/tpope/vim-fugitive.git ~/.vim/bundle/vim-fugitive
-
-#
-#
-#
-echo "
-\" set relativenumber
-set number relativenumber
-
-nnoremap H gT
-nnoremap L gt
-
-set so=99999
-set tabstop=4 softtabstop=0 expandtab shiftwidth=4 smarttab
-set ruler
-\" set statusline+=%F\\ %l\\:%c
-set statusline=%<%{fugitive#statusline()}%P\ %l,%c\ %h%m%r%f%=%{strftime(\\\"%Y-%m-%d\ %l:%M:%S\\\")}
-set statusline=%<%P\ %l,%c\ %h%m%r%f%=%{strftime(\\\"%Y-%m-%d\ %l:%M:%S\\\")}
-hi statusline guibg=Cyan ctermfg=6 guifg=Black ctermbg=White
-
-\" habilitar insert(paste) por defeito
-set paste
-augroup scroll
-    au!
-    au  VimEnter * :silent !synclient VertEdgeScroll=0
-    au  VimLeave * :silent !synclient VertEdgeScroll=1
-augroup END
-
-\" vim-gitgutter
-set updatetime=250
-set mouse+=a
-"  >> ~/.vimrc 
-
-
-echo "Done!"
+echo "Configuração completa! Abra o Vim para verificar."
