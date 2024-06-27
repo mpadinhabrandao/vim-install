@@ -48,9 +48,8 @@ autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") |
       \ execute 'NERDTree' argv()[0] | wincmd p | endif
 
-" Abrir o NERDTree em novas abas e janelas
-autocmd TabNew * NERDTree
-autocmd WinEnter * NERDTree
+" Abrir o NERDTree em novas abas
+autocmd TabEnter * NERDTree
 EOF
 
 # Instalar os plugins do Vim
