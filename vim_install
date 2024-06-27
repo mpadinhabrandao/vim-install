@@ -40,19 +40,17 @@ Plugin 'preservim/nerdtree'
 call vundle#end()            " obrigatório
 filetype plugin indent on    " obrigatório
 
-" Abrir automaticamente o NERDTree ao iniciar o Vim se nenhum ficheiro for especificado
+" Abrir o NERDTree ao iniciar o Vim, se nenhum ficheiro for especificado
 autocmd vimenter * if !argc() | NERDTree | endif
-
-" Fechar o Vim se o NERDTree for o último buffer aberto
-autocmd bufenter * if winnr('$') == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree() | q | endif
 
 " Abrir o NERDTree se o diretório for passado como argumento
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") |
       \ execute 'NERDTree' argv()[0] | wincmd p | endif
 
-" Abrir o NERDTree em novas abas
+" Abrir o NERDTree em novas abas e janelas
 autocmd TabNew * NERDTree
+autocmd WinEnter * NERDTree
 EOF
 
 # Instalar os plugins do Vim
